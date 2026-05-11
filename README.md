@@ -32,39 +32,46 @@ Este projeto automatiza a extração e consolidação dos terminais de origem (i
 
 ## 📂 Estrutura de Dados Esperada
 
-O script busca os dados no caminho configurado na variável `BASE_DADOS`. Por padrão, ele espera a seguinte estrutura:
+O script busca os dados no caminho configurado na variável `BASE_DADOS` e `ANO_GTFS`. Por padrão, ele espera o arquivo consolidado:
 
 ```text
-C:/R_SMTR/dados/gtfs/2026/
-├── sppo_2026-05-02Q.zip
-└── brt_2026-05-02Q.zip
+C:/R_SMTR/dados/gtfs/2026/gtfs_rio-de-janeiro_pub.zip
 ```
 
-*Nota: Você pode ajustar o ano, mês e versão do estudo diretamente nas constantes no início do arquivo `extrair_terminais.py`.*
+*Nota: Você pode ajustar o ano diretamente na constante `ANO_GTFS` no início dos arquivos Python.*
 
 ## ⚙️ Como Executar
 
 Com o ambiente ativo, execute:
 
 ```bash
-python extrair_terminais.py
-```
+- `python extrair_terminais.py`: Extrai apenas os terminais (origens).
+- `python extrair_todos_pontos.py`: Extrai todos os pontos de parada.
 
 Ou utilizando o `uv` diretamente:
 
 ```bash
 uv run extrair_terminais.py
+uv run extrair_todos_pontos.py
 ```
 
 ## 📊 Saída
 
-O script gera o arquivo **`terminais_linhas_consolidado.csv`** na raiz do projeto, contendo as seguintes colunas:
-
+### 1. Terminais (`terminais_linhas_consolidado.csv`)
 - `route_short_name`: Número da linha.
+- `modal`: Tipo de transporte (SPPO, BRT, etc.).
 - `terminal_ida`: Nome do terminal de origem (sentido 0).
 - `lat_ida` / `lon_ida`: Coordenadas do terminal de ida.
 - `terminal_volta`: Nome do terminal de origem (sentido 1).
 - `lat_volta` / `lon_volta`: Coordenadas do terminal de volta.
+
+### 2. Todos os Pontos (`todos_pontos_por_linha_consolidado.csv`)
+- `route_short_name`: Número da linha.
+- `modal`: Tipo de transporte (SPPO, BRT, etc.).
+- `direction_id`: Sentido (0 ou 1).
+- `stop_lat` / `stop_lon`: Coordenadas geográficas.
+- `stop_name`: Nome do ponto de parada.
+- `stop_id`: Identificador da parada.
 
 ---
 Desenvolvido para auxiliar na gestão e análise de dados de transporte público do Rio de Janeiro.
